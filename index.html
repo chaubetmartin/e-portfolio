@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHAUBET Martin – E-Portfolio</title>
+<meta name="description" content="E-portfolio of CHAUBET Martin, engineering student at N7.">
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --surface: #ffffff;
+    --text: #1d2330;
+    --muted: #5d6676;
+    --accent: #1f4fd8;
+    --accent-soft: #e6ecfc;
+    --border: #e1e0da;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151c;
+      --surface: #1b1f29;
+      --text: #eceef3;
+      --muted: #a3aab8;
+      --accent: #7c9cff;
+      --accent-soft: #232b45;
+      --border: #2c3140;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.65;
+  }
+
+  /* ---------- Language switch: only the text of the chosen language is shown ---------- */
+  html[data-lang="en"] [data-l="fr"],
+  html[data-lang="fr"] [data-l="en"] { display: none !important; }
+
+  /* ---------- Header + tabs ---------- */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .bar {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 14px 20px 0;
+  }
+  .topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { font-weight: 700; font-size: 1.15rem; letter-spacing: -.01em; }
+  .brand span { color: var(--muted); font-weight: 400; font-size: .9rem; margin-left: 8px; }
+  .lang { display: flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; flex: none; }
+  .lang button {
+    appearance: none;
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .lang button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  nav {
+    display: flex;
+    gap: 4px;
+    margin-top: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: .95rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  nav button:hover { color: var(--text); }
+  nav button[aria-selected="true"] {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+  nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 6px; }
+
+  /* ---------- Content ---------- */
+  main { max-width: 1000px; margin: 0 auto; padding: 36px 20px 60px; }
+  section[role="tabpanel"] { display: none; animation: fade .3s ease; }
+  section[role="tabpanel"].active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { section[role="tabpanel"] { animation: none; } }
+
+  h1 { font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.15; margin: 0 0 8px; letter-spacing: -.02em; }
+  h2 { font-size: 1.5rem; margin: 0 0 10px; letter-spacing: -.01em; }
+  h3 { font-size: 1.1rem; margin: 0 0 6px; }
+  p { margin: 0 0 14px; }
+  .lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
+  .tag {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: .8rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin: 0 6px 6px 0;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 36px;
+    align-items: center;
+  }
+  .photo {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--accent-soft);
+    border: 4px solid var(--surface);
+    box-shadow: 0 6px 24px rgba(0,0,0,.12);
+    display: grid;
+    place-items: center;
+    color: var(--accent);
+    font-size: .9rem;
+    text-align: center;
+    padding: 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 18px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .grid .card { margin-bottom: 0; }
+  .note { color: var(--muted); font-size: .9rem; }
+  ul { padding-left: 1.2rem; margin: 0 0 14px; }
+  li { margin-bottom: 4px; }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 14px; }
+  .gallery .ph {
+    aspect-ratio: 4/3;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: grid; place-items: center;
+    font-size: .85rem; text-align: center; padding: 10px;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+
+  .btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 10px;
+    margin: 4px 8px 4px 0;
+  }
+  .btn.alt { background: var(--accent-soft); color: var(--accent); }
+  .btn:hover { filter: brightness(1.08); }
+  a { color: var(--accent); }
+
+  .video {
+    aspect-ratio: 16/9;
+    width: 100%;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+  }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 24px; border-top: 1px solid var(--border); }
+
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero .photo { max-width: 200px; order: -1; }
+    .brand span { display: block; margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="topline">
+      <div class="brand">Martin Chaubet<span><span data-l="en">E-Portfolio · N7 Engineering School</span><span data-l="fr">E-Portfolio · École d'ingénieurs N7</span></span></div>
+      <div class="lang" role="group" aria-label="Language / Langue">
+        <button type="button" id="b-fr" aria-pressed="false" data-set="fr">FR</button>
+        <button type="button" id="b-en" aria-pressed="true" data-set="en">EN</button>
+      </div>
+    </div>
+    <nav role="tablist" aria-label="Portfolio sections">
+      <button role="tab" id="t-home"     aria-controls="home"     aria-selected="true"><span data-l="en">Home</span><span data-l="fr">Accueil</span></button>
+      <button role="tab" id="t-courses"  aria-controls="courses"  aria-selected="false"><span data-l="en">Engineering Courses</span><span data-l="fr">Cursus d'ingénieur</span></button>
+      <button role="tab" id="t-mobility" aria-controls="mobility" aria-selected="false"><span data-l="en">Mobility</span><span data-l="fr">Mobilité</span></button>
+      <button role="tab" id="t-civic"    aria-controls="civic"    aria-selected="false"><span data-l="en">Civic Engagement</span><span data-l="fr">Engagement citoyen</span></button>
+      <button role="tab" id="t-sports"   aria-controls="sports"   aria-selected="false"><span data-l="en">Sports &amp; Activities</span><span data-l="fr">Sport &amp; activités</span></button>
+      <button role="tab" id="t-career"   aria-controls="career"   aria-selected="false"><span data-l="en">Career Development</span><span data-l="fr">Projet professionnel</span></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HOME ================= -->
+  <section id="home" role="tabpanel" aria-labelledby="t-home" class="active">
+    <div class="hero">
+      <div>
+        <h1 data-l="en">Who am I?</h1>
+        <h1 data-l="fr">Qui suis-je ?</h1>
+
+        <p class="lead" data-l="en">I'm Martin Chaubet, from Perpignan in the south of France. I'm currently a first-year engineering student at ENSEEIHT (Toulouse INP-N7), studying Digital Sciences.</p>
+        <p class="lead" data-l="fr">Je m'appelle Martin Chaubet, je viens de Perpignan, dans le sud de la France. Je suis actuellement étudiant en première année d'école d'ingénieurs à l'ENSEEIHT (Toulouse INP-N7), en Sciences du Numérique.</p>
+
+        <p data-l="en">Staying in the south is a blessing: I get to enjoy summer half of the year. I live outdoors. When I'm not at school, I run, play other sports, see friends and go to the mountains (I just don't see the sea as often as I used to).</p>
+        <p data-l="fr">Rester dans le sud est une chance : je profite de l'été la moitié de l'année. Je vis dehors. Quand je ne suis pas en cours, je cours, je pratique d'autres sports, je vois mes amis et je vais à la montagne (je vois simplement moins souvent la mer qu'avant).</p>
+
+        <p data-l="en">This e-portfolio is a way for you to get to know me: how I think, what I want to do in the future, my qualities and flaws, and even what I eat.</p>
+        <p data-l="fr">Cet e-portfolio est une façon de me connaître : ma façon de penser, ce que je veux faire plus tard, mes qualités et mes défauts, et même ce que je mange.</p>
+
+        <span class="tag" data-l="en">Mathematics</span><span class="tag" data-l="fr">Mathématiques</span>
+        <span class="tag">Big Data</span>
+        <span class="tag" data-l="en">Sports</span><span class="tag" data-l="fr">Sport</span>
+        <span class="tag" data-l="en">Travel</span><span class="tag" data-l="fr">Voyages</span>
+      </div>
+      <div>
+        <img class="photo" src="pp.jpeg" alt="Photo of Martin Chaubet">
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:32px">
+      <h2 data-l="en">Introduction video</h2>
+      <h2 data-l="fr">Vidéo de présentation</h2>
+      <!-- Replace the src below with your YouTube embed link, e.g. https://www.youtube.com/embed/abc123 -->
+      <iframe class="video" src="" title="Introduction video" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- ================= ENGINEERING COURSES ================= -->
+  <section id="courses" role="tabpanel" aria-labelledby="t-courses">
+    <h1 data-l="en">Engineering Courses</h1>
+    <h1 data-l="fr">Cursus d'ingénieur</h1>
+    <p class="lead" data-l="en">Two projects I saw through to the end, both written in Python.</p>
+    <p class="lead" data-l="fr">Deux projets que j'ai menés jusqu'au bout, tous deux réalisés en Python.</p>
+
+    <div class="card">
+      <h2 data-l="en">Study of the fluidification of a cellular automaton representing a forest fire</h2>
+      <h2 data-l="fr">Étude de la fluidification d'un automate cellulaire représentant un feu de forêt</h2>
+      <p class="note" data-l="en">Python · TIPE · Individual project</p>
+      <p class="note" data-l="fr">Python · TIPE · Projet individuel</p>
+      <p data-l="en">I carried out this project on my own. It rethinks how cellular automata work in order to get a smoother simulation.</p>
+      <p data-l="fr">J'ai réalisé ce projet seul. Il repense le fonctionnement des automates cellulaires afin d'obtenir une simulation plus fluide.</p>
+      <div class="gallery">
+        <a class="ph" href="TIPE_propagation_d_un_feu_de_foret.pdf" target="_blank" rel="noopener"><img src="project1.jpg" alt="Title slide of the forest fire presentation (opens the PDF)"></a>
+      </div>
+      <p class="note" style="margin-top:10px" data-l="en">Click the image to open the presentation (PDF, in French).</p>
+      <p class="note" style="margin-top:10px" data-l="fr">Clique sur l'image pour ouvrir la présentation (PDF).</p>
+    </div>
+
+    <div class="card">
+      <h2 data-l="en">Study of the return to the initial state of a deck of cards (through the riffle shuffle)</h2>
+      <h2 data-l="fr">Étude du retour à l'état initial de la disposition d'un jeu de cartes (à travers le mélange Riffle Shuffle)</h2>
+      <p class="note">Python · TIPE</p>
+      <p data-l="en">This project has no particular practical use: it is mainly theoretical and takes the study of card shuffling to its extreme.</p>
+      <p data-l="fr">Ce projet n'a pas d'application concrète particulière : il est principalement théorique et pousse l'étude des mélanges de jeux de cartes à son paroxysme.</p>
+      <div class="gallery">
+        <a class="ph" href="TIPE_Etude_du_retour_etat_initial.pdf" target="_blank" rel="noopener"><img src="project2.jpg" alt="Title slide of the card shuffling presentation (opens the PDF)"></a>
+      </div>
+      <p class="note" style="margin-top:10px" data-l="en">Click the image to open the presentation (PDF, in French).</p>
+      <p class="note" style="margin-top:10px" data-l="fr">Clique sur l'image pour ouvrir la présentation (PDF).</p>
+    </div>
+
+    <div class="card">
+      <h2 data-l="en">What these projects gave me</h2>
+      <h2 data-l="fr">Ce que ces projets m'ont apporté</h2>
+      <p data-l="en">These projects helped me a lot in computer science throughout my two years of preparatory classes (prépa). They are, in a way, what guided my choice of school. I enjoyed modeling real-world systems using nothing but my computer and Python.</p>
+      <p data-l="fr">Ces projets m'ont beaucoup aidé en informatique tout au long de mes deux années de prépa. Ce sont eux qui ont, en quelque sorte, orienté mon choix d'école. J'ai pris énormément de plaisir à modéliser des systèmes réels uniquement avec mon ordinateur et Python.</p>
+    </div>
+  </section>
+
+  <!-- ================= MOBILITY ================= -->
+  <section id="mobility" role="tabpanel" aria-labelledby="t-mobility">
+    <h1 data-l="en">Mobility</h1>
+    <h1 data-l="fr">Mobilité</h1>
+    <p class="lead" data-l="en">Studying and living abroad: my experience and my plans.</p>
+    <p class="lead" data-l="fr">Étudier et vivre à l'étranger : mon expérience et mes projets.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h2 data-l="en">Where I've been</h2>
+        <h2 data-l="fr">Mes voyages</h2>
+        <p data-l="en">I have traveled abroad several times, with or without my parents, including to Canada, Portugal, Brazil, Scotland and Spain, and I went surfing in every one of these countries.</p>
+        <p data-l="fr">J'ai voyagé plusieurs fois à l'étranger, avec ou sans mes parents, notamment au Canada, au Portugal, au Brésil, en Écosse et en Espagne, et j'ai fait du surf dans chacun de ces pays.</p>
+      </div>
+      <div class="card">
+        <h2 data-l="en">My plans</h2>
+        <h2 data-l="fr">Mes projets</h2>
+        <p data-l="en">I am certain that I will spend some time abroad during my studies, and I will choose my destination mainly to discover a country that makes me dream. I could easily see myself living in Sweden or another Nordic country, because I tend to avoid the heat, which I find stifling in France.</p>
+        <p data-l="fr">Je suis certain que je ferai un séjour à l'étranger pendant mes études, et je choisirai la destination avant tout pour découvrir un pays qui me fait rêver. Je me verrais bien vivre en Suède ou dans un autre pays du Nord, car je fuis un peu la chaleur, qui m'étouffe en France.</p>
+        <p data-l="en">One of my goals for the future is to keep surfing in every country I visit, because there is always somewhere you can surf.</p>
+        <p data-l="fr">Un de mes objectifs pour plus tard est de continuer à surfer dans chaque pays que je visiterai, car il y a toujours un endroit où l'on peut surfer.</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <div class="ph"><span data-l="en">Photo of a place<br>(images/mobility1.jpg)</span><span data-l="fr">Photo d'un lieu<br>(images/mobility1.jpg)</span></div>
+      <div class="ph"><span data-l="en">Photo<br>(images/mobility2.jpg)</span><span data-l="fr">Photo<br>(images/mobility2.jpg)</span></div>
+    </div>
+  </section>
+
+  <!-- ================= CIVIC ENGAGEMENT ================= -->
+  <section id="civic" role="tabpanel" aria-labelledby="t-civic">
+    <h1 data-l="en">Civic Engagement</h1>
+    <h1 data-l="fr">Engagement citoyen</h1>
+    <p class="lead" data-l="en">How I contribute to the life around me.</p>
+    <p class="lead" data-l="fr">Comment je m'investis dans la vie qui m'entoure.</p>
+
+    <div class="card">
+      <h2 data-l="en">School life</h2>
+      <h2 data-l="fr">La vie de l'école</h2>
+      <p data-l="en">I am very involved in school life.</p>
+      <p data-l="fr">Je m'implique énormément dans la vie de l'école.</p>
+    </div>
+    <div class="card">
+      <h2 data-l="en">Awareness races</h2>
+      <h2 data-l="fr">Courses de sensibilisation</h2>
+      <p data-l="en">I take part in awareness-raising races as often as I can, for example the Bacchantes race for prostate cancer or the Pink Race (Course Rose) for breast cancer.</p>
+      <p data-l="fr">Je participe autant que possible à des courses de sensibilisation, par exemple la course des Bacchantes pour le cancer de la prostate ou la Course Rose pour le cancer du sein.</p>
+    </div>
+    <div class="gallery">
+      <div class="ph"><span data-l="en">Photo<br>(images/civic1.jpg)</span><span data-l="fr">Photo<br>(images/civic1.jpg)</span></div>
+    </div>
+  </section>
+
+  <!-- ================= SPORTS & ACTIVITIES ================= -->
+  <section id="sports" role="tabpanel" aria-labelledby="t-sports">
+    <h1 data-l="en">Sports &amp; Activities</h1>
+    <h1 data-l="fr">Sport &amp; activités</h1>
+    <p class="lead" data-l="en">What I do outside the classroom.</p>
+    <p class="lead" data-l="fr">Ce que je fais en dehors des cours.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h2 data-l="en">Pushing my limits</h2>
+        <h2 data-l="fr">Me surpasser</h2>
+        <p data-l="en">I like to push myself beyond my limits, which is why I do as many sports as I can: running, swimming, hiking and boxing, which I practice at N7. Doing a sport on your own means coming face to face with yourself.</p>
+        <p data-l="fr">J'aime me surpasser, c'est pourquoi je pratique un maximum de sports : la course à pied, la natation, la randonnée et la boxe, que je pratique à l'N7. Pratiquer un sport seul permet de se retrouver face à soi-même.</p>
+      </div>
+      <div class="card">
+        <h2 data-l="en">Team sports</h2>
+        <h2 data-l="fr">Sports d'équipe</h2>
+        <p data-l="en">I also enjoy playing team sports for fun whenever possible, such as football (soccer), rugby or volleyball. They give you the chance to talk, meet people and share a good time with others.</p>
+        <p data-l="fr">J'aime aussi, autant que possible, pratiquer des sports d'équipe pour le loisir, comme le football, le rugby ou le volley. Ils offrent la possibilité d'échanger, de rencontrer des gens et de partager un bon moment avec autrui.</p>
+      </div>
+      <div class="card">
+        <h2 data-l="en">My next goal</h2>
+        <h2 data-l="fr">Mon prochain objectif</h2>
+        <p data-l="en">My next goal is to take part in a Hyrox. Before taking the plunge, however, I would like to run a marathon first: the two events complement each other, but they are very hard to train for at the same time.</p>
+        <p data-l="fr">Mon prochain objectif est de participer à un Hyrox. Avant de me lancer, j'aimerais toutefois réaliser un marathon : ces deux compétitions sont complémentaires, mais très difficiles à travailler de manière simultanée.</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <div class="ph"><span data-l="en">Photo<br>(images/sport1.jpg)</span><span data-l="fr">Photo<br>(images/sport1.jpg)</span></div>
+      <div class="ph"><span data-l="en">Photo<br>(images/sport2.jpg)</span><span data-l="fr">Photo<br>(images/sport2.jpg)</span></div>
+    </div>
+  </section>
+
+  <!-- ================= CAREER DEVELOPMENT ================= -->
+  <section id="career" role="tabpanel" aria-labelledby="t-career">
+    <h1 data-l="en">Career Development</h1>
+    <h1 data-l="fr">Projet professionnel</h1>
+    <p class="lead" data-l="en">Where I am heading professionally.</p>
+    <p class="lead" data-l="fr">Là où je veux aller professionnellement.</p>
+
+    <div class="card">
+      <h2 data-l="en">Career interests</h2>
+      <h2 data-l="fr">Mes centres d'intérêt professionnels</h2>
+      <p data-l="en">I would like to work in Big Data because it embodies the challenges of our time. Computer systems, and engineering in general, are becoming ever more complex, and the amount of information to store and analyze is growing along with them. It is vital to be able to use and preserve as much data as possible, as effectively as possible.</p>
+      <p data-l="fr">J'aimerais exercer dans le domaine du Big Data, car il incarne les enjeux de notre temps. En effet, les systèmes informatiques, et l'ingénierie en général, sont de plus en plus complexes : la quantité d'informations à stocker et à étudier est donc, elle aussi, en expansion. Il est vital de pouvoir exploiter et conserver au mieux un maximum de données.</p>
+      <p data-l="en">In particular, I would like to work in applied mathematics, simply because I love mathematics. Big Data allows me to do that, but if I don't manage to get into this field, I plan to specialize in statistics so that I can keep doing math and modeling the world.</p>
+      <p data-l="fr">J'aimerais en particulier travailler dans les mathématiques appliquées, tout simplement parce que j'adore les mathématiques. Le Big Data me permet d'en faire, mais si je n'arrive pas à rejoindre cette filière, je pense me spécialiser en statistiques afin de continuer à faire des maths et à modéliser le monde.</p>
+      <span class="tag">Big Data</span>
+      <span class="tag" data-l="en">Applied mathematics</span><span class="tag" data-l="fr">Mathématiques appliquées</span>
+      <span class="tag" data-l="en">Statistics</span><span class="tag" data-l="fr">Statistiques</span>
+    </div>
+
+    <div class="card">
+      <h2 data-l="en">Martin Chaubet CV Anglais</h2>
+      <h2 data-l="fr">Martin CHAUBET CV Francais</h2>
+      <p>
+        <!-- Put your CVs in the same folder, named cv-en.pdf and cv-fr.pdf -->
+        <a class="btn" href="CHAUBET_Martin_CV_Anglais.pdf" download data-l="en">Download my CV (PDF)</a>
+        <a class="btn" href="CHAUBET_Martin_CV.pdf" download data-l="fr">Télécharger mon CV (PDF)</a>
+      </p>
+    </div>
+
+    <div class="card">
+      <h2 data-l="en">Skills</h2>
+      <h2 data-l="fr">Compétences</h2>
+      <ul data-l="en">
+        <li><strong>Programming:</strong> Python, MATLAB, Ada</li>
+        <li><strong>Languages:</strong> French (native), English (C1), Spanish (school level), Russian (currently learning)</li>
+        <li><strong>Soft skills:</strong> I'm known for being very entertaining in any situation, while always staying respectful.</li>
+      </ul>
+      <ul data-l="fr">
+        <li><strong>Informatique :</strong> Python, MATLAB, Ada</li>
+        <li><strong>Langues :</strong> français (langue maternelle), anglais (C1), espagnol (niveau scolaire), russe (en cours d'apprentissage)</li>
+        <li><strong>Soft skills :</strong> j'ai la réputation d'être très divertissant en toutes circonstances, tout en restant toujours respectueux.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>© <span id="year"></span> Martin Chaubet · <span data-l="en">N7 Engineering School</span><span data-l="fr">École d'ingénieurs N7</span></footer>
+
+<script>
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+  const langButtons = [...document.querySelectorAll('[data-set]')];
+  const titles = { en: 'CHAUBET Martin – E-Portfolio', fr: 'CHAUBET Martin – E-Portfolio' };
+  const videoTitles = { en: 'Introduction video', fr: 'Vidéo de présentation' };
+
+  function setLang(lang) {
+    if (lang !== 'fr') lang = 'en';
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    document.title = titles[lang];
+    const v = document.querySelector('.video');
+    if (v) v.title = videoTitles[lang];
+    langButtons.forEach(b => b.setAttribute('aria-pressed', b.dataset.set === lang));
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
+
+  langButtons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.set)));
+  let saved = 'en';
+  try { saved = localStorage.getItem('lang') || 'en'; } catch (e) {}
+  setLang(saved);
+
+  function show(id, pushHash = true) {
+    if (!document.getElementById(id)) id = 'home';
+    tabs.forEach(t => t.setAttribute('aria-selected', t.getAttribute('aria-controls') === id));
+    panels.forEach(p => p.classList.toggle('active', p.id === id));
+    if (pushHash) history.replaceState(null, '', '#' + id);
+    window.scrollTo({ top: 0 });
+  }
+
+  tabs.forEach(t => t.addEventListener('click', () => show(t.getAttribute('aria-controls'))));
+
+  // keyboard: left / right arrows move between tabs
+  tabs.forEach((t, i) => t.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+    next.focus(); next.click();
+  }));
+
+  window.addEventListener('hashchange', () => show(location.hash.slice(1), false));
+  show(location.hash.slice(1) || 'home', false);
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
