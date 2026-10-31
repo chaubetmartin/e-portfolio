@@ -252,8 +252,10 @@
     <div class="card" style="margin-top:32px">
       <h2 data-l="en">Introduction video</h2>
       <h2 data-l="fr">Vidéo de présentation</h2>
-      <!-- Replace the src below with your YouTube embed link, e.g. https://www.youtube.com/embed/abc123 -->
-      <iframe class="video" src="Video e-portfolio(1).mp4" title="Introduction video" allowfullscreen loading="lazy"></iframe>
+      <video class="video" controls preload="metadata" playsinline title="Introduction video" style="background:#000; object-fit:contain">
+        <source src="video-eportfolio.mp4" type="video/mp4">
+        <span data-l="en">Your browser does not support the video tag.</span><span data-l="fr">Votre navigateur ne prend pas en charge la lecture vidéo.</span>
+      </video>
     </div>
   </section>
 
